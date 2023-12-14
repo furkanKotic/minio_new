@@ -809,7 +809,7 @@ class Minio {
       // 'expiration' is mandatory field for S3.
       // Set default expiration date of 7 days.
       var expires = DateTime.now().toUtc();
-      expires.add(Duration(days: 7));
+      expires.add(const Duration(days: 7));
       postPolicy.setExpires(expires);
     }
 
@@ -821,9 +821,9 @@ class Minio {
     postPolicy.formData['x-amz-algorithm'] = 'AWS4-HMAC-SHA256';
 
     postPolicy.policy['conditions'].push(
-        ['eq', r'$x-amz-credential', accessKey + '/' + getScope(region, date)]);
+        ['eq', r'$x-amz-credential', '$accessKey/${getScope(region, date)}']);
     postPolicy.formData['x-amz-credential'] =
-        accessKey + '/' + getScope(region, date);
+        '$accessKey/${getScope(region, date)}';
 
     if (sessionToken != null) {
       postPolicy.policy['conditions']

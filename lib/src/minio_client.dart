@@ -10,7 +10,7 @@ import 'package:minio_new/src/minio_sign.dart';
 import 'package:minio_new/src/utils.dart';
 
 class MinioRequest extends BaseRequest {
-  MinioRequest(String method, Uri url, {this.onProgress}) : super(method, url);
+  MinioRequest(super.method, super.url, {this.onProgress});
 
   dynamic body;
 
@@ -29,7 +29,7 @@ class MinioRequest extends BaseRequest {
     if (body is Stream<Uint8List>) {
       stream = body;
     } else if (body is String) {
-      final data = Utf8Encoder().convert(body);
+      final data = const Utf8Encoder().convert(body);
       headers['content-length'] = data.length.toString();
       stream = Stream<Uint8List>.value(data);
     } else if (body is Uint8List) {
